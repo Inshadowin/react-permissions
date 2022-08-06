@@ -8,7 +8,7 @@ Wrap your App in `PermissionsProvider`
 
 ```jsx
 const Main = () => {
-  return <PermissionsProvider>// your app code</PermissionsProvider>;
+  return <PermissionsProvider>{/* your app code */}</PermissionsProvider>;
 };
 ```
 
