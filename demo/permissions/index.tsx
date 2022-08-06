@@ -48,6 +48,7 @@ const Permissions = () => {
       onCheckPermissions={emptyCheckPermissions}
     >
       <h1>Permissions Playground</h1>
+      {/* =============================================================================== */}
       <PermissionCheck fallback={<FailedResult />} action="has_this_permission">
         <span>
           This is permitted <SuccessfullResult />
@@ -56,6 +57,7 @@ const Permissions = () => {
       <PermissionCheck action="not_available_permission">
         This is not permitted, but we see nothing <FailedResult />
       </PermissionCheck>
+      {/* =============================================================================== */}
       <PermissionCheck
         fallback={
           <span>
@@ -68,6 +70,7 @@ const Permissions = () => {
           This is not permitted, but we have fallback <FailedResult />
         </span>
       </PermissionCheck>
+      {/* =============================================================================== */}
       <PermissionCheck
         action="didnt check this action"
         loading={<span>This is loading for 2s</span>}
@@ -79,6 +82,7 @@ const Permissions = () => {
       >
         We didn't get permission from check <FailedResult />
       </PermissionCheck>
+      {/* =============================================================================== */}
       <PermissionCheck
         action="denied_on_go"
         loading={<span>This is loading for 2s</span>}
@@ -90,6 +94,7 @@ const Permissions = () => {
       >
         We got refected permission from check <FailedResult />
       </PermissionCheck>
+      {/* =============================================================================== */}
       <PermissionCheck
         action="no_allowed_info_on_go"
         loading={<span>This is loading for 2s</span>}
@@ -101,6 +106,7 @@ const Permissions = () => {
       >
         We didn't get allowed permission from check <FailedResult />
       </PermissionCheck>
+      {/* =============================================================================== */}
       <PermissionCheck
         loading={<span>This is loading for 2s</span>}
         action="checked_on_go"
@@ -114,6 +120,39 @@ const Permissions = () => {
           This content loaded <SuccessfullResult />
         </span>
       </PermissionCheck>
+      {/* =============================================================================== */}
+      <PermissionCheck
+        action={['checked_on_go']}
+        loading={<span>This is loading for 2s</span>}
+        fallback={
+          <span>
+            Permission check failed <FailedResult />
+          </span>
+        }
+      >
+        <span>
+          Action was passed as array <SuccessfullResult />
+        </span>
+      </PermissionCheck>
+      {/* =============================================================================== */}
+      <PermissionCheck
+        action={['checked_on_go', 'not_available_permission']}
+        loading={<span>This is loading for 2s</span>}
+        isAllowed={allowed =>
+          allowed.includes('checked_on_go') ||
+          allowed.includes('not_available_permission')
+        }
+        fallback={
+          <span>
+            This message should not appear <FailedResult />
+          </span>
+        }
+      >
+        <span>
+          Must handle custom logic <SuccessfullResult />
+        </span>
+      </PermissionCheck>
+      {/* =============================================================================== */}
       <PermissionCheck
         action="checked_on_go"
         fallback={

@@ -56,9 +56,9 @@ This component allows you to hide content based on permissions
 
 ```jsx
 type PermissionCheckProps = {
-  // this action will be checked upon
+  // this action/actions will be checked upon
   // if it's allowed - we will show content
-  action: string,
+  action: string | string[],
 
   // content that must be shown if action is allowed
   children: React.ReactNode,
@@ -74,6 +74,10 @@ type PermissionCheckProps = {
   // event when action is denied
   // fire alerts, write logs or redirects - do anything
   onDenied?: (action: string) => void,
+
+  // if you need to implement custom check
+  // by default we need to have all actions allowed
+  isAllowed?: (allowedActions: string[], deniedActions: string[]) => boolean,
 };
 
 return <PermissionCheck>Secure Content</PermissionCheck>;

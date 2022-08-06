@@ -21,6 +21,11 @@ type CheckResultItem = {
   allowed?: boolean;
 };
 
+export type AllowedLogicType = (
+  allowed: ActionType[],
+  denied: ActionType[]
+) => boolean;
+
 export type CheckResult = CheckResultItem[];
 
 export type OnCheckPermissionsType = (
