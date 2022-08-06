@@ -48,6 +48,70 @@ return (
 );
 ```
 
+In the code itself use `PermissionCheck` component
+
+```jsx
+// Base usage:
+return (
+  <PermissionCheck action="can_view_files">
+    <FileViewer />
+  </PermissionCheck>
+);
+
+// Two or more permissions at the same time:
+return (
+  <PermissionCheck action={['can_view_files', 'is_system_admin']}>
+    <SystemFileViewer />
+  </PermissionCheck>
+);
+
+// Provide Fallback for denied access:
+return (
+  <PermissionCheck fallback="It's not for you, sorry" action="can_view_files">
+    <SystemFileViewer />
+  </PermissionCheck>
+);
+
+// Provide Loading if checks are dynamic:
+return (
+  <PermissionCheck loading={<Spin />} action="can_view_files">
+    <SystemFileViewer />
+  </PermissionCheck>
+);
+
+// Provide onDeny if you want to do something on permission deny
+return (
+  <PermissionCheck
+    action="can_view_files"
+    onDeny={action => {
+      logger.info(`Action ${[action]} got denied`);
+      redirectUser('/');
+    }}
+  >
+    <SystemFileViewer />
+  </PermissionCheck>
+);
+
+// Provide custom logic for permissions
+return (
+  <PermissionCheck
+    action={['can_view_files', 'can_view_system_files', 'has_full_access']}
+    isAllowed={(allowed = [], denied = []) => {
+      if (
+        allowed.includes('can_view_files') &&
+        allowed.includes('can_view_system_files')
+      ) {
+        return true;
+      }
+
+      return !denied.includes('has_full_access');
+    }}
+  >
+    <FileViewer />
+  </PermissionCheck>
+);
+```
+
 ## Utilities
 
 ### PermissionCheck
