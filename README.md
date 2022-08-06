@@ -84,7 +84,7 @@ return (
   <PermissionCheck
     action="can_view_files"
     onDeny={action => {
-      logger.info(`Action ${[action]} got denied`);
+      logger.info(`Action [${action}] got denied`);
       redirectUser('/');
     }}
   >
