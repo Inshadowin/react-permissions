@@ -1,5 +1,5 @@
 {
-  "name": "react-permissions",
+  "name": "react-permissions-dynamic",
   "version": "1.0.0",
   "description": "This is a package with react-permissions",
   "types": "./dist/index.d.ts",
@@ -28,7 +28,9 @@
     "permissions",
     "app-permissions",
     "react-permissions",
-    "permissions resolver"
+    "permissions resolver",
+    "react permissions dynamic",
+    "react-permissions-dynamic"
   ],
   "jest": {
     "roots": [
