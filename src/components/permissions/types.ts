@@ -23,7 +23,8 @@ type CheckResultItem = {
 
 export type AllowedLogicType = (
   allowed: ActionType[],
-  denied: ActionType[]
+  denied: ActionType[],
+  payload: ActionType[]
 ) => boolean;
 
 export type CheckResult = CheckResultItem[];

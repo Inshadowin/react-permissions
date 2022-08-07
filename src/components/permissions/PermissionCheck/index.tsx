@@ -28,13 +28,11 @@ export const PermissionCheck: React.FC<PermissionCheckProps> = ({
 
     return onDenied?.(status.action);
   };
-  const actionsStatus = useCheckPermissions(
-    createPayload(action),
-    onActionDenied
-  );
+  const payload = createPayload(action);
+  const actionsStatus = useCheckPermissions(payload, onActionDenied);
 
   const checked = actionsStatus.every(s => !!s.checked);
-  const allowed = checkIfAllowed(actionsStatus, isAllowed);
+  const allowed = checkIfAllowed(actionsStatus, isAllowed, payload);
 
   if (!checked) return loading as JSX.Element;
   if (!allowed) return fallback as JSX.Element;

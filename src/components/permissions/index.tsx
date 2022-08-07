@@ -77,5 +77,6 @@ export default Permissions;
 export const usePermissions = () => useContext(PermissionsContext);
 export const PermissionsProvider = Permissions;
 export { PermissionCheck } from './PermissionCheck';
+export type { PermissionCheckProps } from './PermissionCheck';
 export { useCheckPermission } from './useCheckPermission';
 export { useCheckPermissions } from './useCheckPermissions';
