@@ -1,7 +1,12 @@
 import React, { useContext, useRef, useState } from 'react';
 
 import { useIsMounted } from '../../hooks';
-import { has, performActionsCheck, initializePermissions } from './utilities';
+import {
+  has,
+  performActionsCheck,
+  initializePermissions,
+  defaultOnCheckPermissions,
+} from './utilities';
 import type {
   ActionType,
   CheckResult,
@@ -32,9 +37,9 @@ const PermissionsContext = React.createContext<PermissionsContextType>({
 });
 
 const Permissions: React.FC<PermissionsProps> = ({
-  onCheckPermissions,
   children,
   initialPermissions,
+  onCheckPermissions = defaultOnCheckPermissions,
 }) => {
   const isMounted = useIsMounted();
   const progressPermissionsRef = useRef<PermissionType[]>([]);

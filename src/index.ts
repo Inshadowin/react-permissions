@@ -6,6 +6,7 @@ export {
   useCheckPermissions,
 } from './components';
 export type {
+  PermissionCheckProps,
   PermissionsContextType,
   PermissionsProviderProps,
 } from './components';
