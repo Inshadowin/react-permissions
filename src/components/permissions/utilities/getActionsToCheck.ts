@@ -1,26 +1,22 @@
 import { has } from '.';
-import type {
-  ActionType,
-  PermissionType,
-  ProgressPermissionsRefType,
-} from '../types';
+import type { ProgressPermissionsRefType } from '../types';
 
-type GetActionsToCheckParams = {
-  actions: ActionType[];
-  checkedPermissions: PermissionType[];
+type GetActionsToCheckParams<T extends string = string> = {
+  actions: T[];
+  checkedPermissions: T[];
   progressPermissionsRef: ProgressPermissionsRefType;
 };
 
-export const getActionsToCheck = ({
+export const getActionsToCheck = <T extends string = string>({
   actions,
   checkedPermissions = [],
   progressPermissionsRef,
-}: GetActionsToCheckParams): ActionType[] => {
+}: GetActionsToCheckParams): T[] => {
   const actionsToCheck = [actions]
     .flat(Infinity)
     .filter(a => !!a)
-    .filter((a: ActionType) => !has(checkedPermissions, a))
-    .filter((a: ActionType) => !has(progressPermissionsRef?.current, a));
+    .filter((a: T) => !has(checkedPermissions, a))
+    .filter((a: T) => !has(progressPermissionsRef?.current, a));
 
-  return actionsToCheck as ActionType[];
+  return actionsToCheck as T[];
 };

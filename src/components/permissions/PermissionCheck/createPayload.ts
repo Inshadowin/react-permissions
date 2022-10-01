@@ -1,7 +1,3 @@
-import type { ActionType } from '../types';
-
-export const createPayload = (
-  action: ActionType | ActionType[]
-): ActionType[] => {
+export const createPayload = <T extends string>(action: T | T[]): T[] => {
   return Array.isArray(action) ? action : [action];
 };

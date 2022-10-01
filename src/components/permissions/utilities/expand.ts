@@ -1,8 +1,6 @@
-import type { PermissionType } from '../types';
-
-export const expand = (
-  expandTarget: PermissionType[],
-  expandWith: PermissionType[]
+export const expand = <T extends string = string>(
+  expandTarget: T[],
+  expandWith: T[]
 ) => {
   return Array.from(new Set([...expandTarget, ...expandWith]));
 };

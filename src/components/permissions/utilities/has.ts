@@ -1,8 +1,6 @@
-import type { PermissionType } from '../types';
-
-export const has = (
-  permissions: PermissionType[],
-  permission: PermissionType
+export const has = <T extends string = string>(
+  permissions: T[],
+  permission: T
 ) => {
   return !!permissions?.includes(permission);
 };

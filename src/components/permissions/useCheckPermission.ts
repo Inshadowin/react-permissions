@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 
 import { usePermissions } from '.';
 import { useRefValue } from '../../hooks';
-import type { ActionType } from './types';
 
-export const useCheckPermission = (action: ActionType) => {
+export const useCheckPermission = <T extends string = string>(action: T) => {
   const { check, allowed } = usePermissions();
 
   const checkRef = useRefValue(check);

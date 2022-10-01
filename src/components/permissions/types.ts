@@ -1,34 +1,30 @@
-export type ActionType = string;
-export type PermissionType = string;
+export type ProgressPermissionsRefType<T extends string = string> =
+  React.MutableRefObject<T[]>;
 
-export type ProgressPermissionsRefType = React.MutableRefObject<
-  PermissionType[]
->;
-
-export type PermissionsContainerType = {
-  allowedPermissions: PermissionType[];
-  checkedPermissions: PermissionType[];
+export type PermissionsContainerType<T extends string = string> = {
+  allowedPermissions: T[];
+  checkedPermissions: T[];
 };
 
-export type ActionStatusType = {
-  action: ActionType;
+export type ActionStatusType<T extends string = string> = {
+  action: T;
   allowed: boolean;
   checked: boolean;
 };
 
-type CheckResultItem = {
-  action: ActionType;
+type CheckResultItem<T extends string = string> = {
+  action: T;
   allowed?: boolean;
 };
 
-export type AllowedLogicType = (
-  allowed: ActionType[],
-  denied: ActionType[],
-  payload: ActionType[]
+export type AllowedLogicType<T extends string = string> = (
+  allowed: T[],
+  denied: T[],
+  payload: T[]
 ) => boolean;
 
 export type CheckResult = CheckResultItem[];
 
-export type OnCheckPermissionsType = (
-  actions: ActionType[]
+export type OnCheckPermissionsType<T extends string = string> = (
+  actions: T[]
 ) => Promise<CheckResult> | CheckResult;

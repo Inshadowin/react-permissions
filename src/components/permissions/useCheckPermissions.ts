@@ -3,23 +3,24 @@ import { useRef } from 'react';
 import { has } from './utilities';
 import { usePermissions } from '.';
 import { useRefValue, useDeepEffect } from '../../hooks';
-import type { ActionType, ActionStatusType } from './types';
+import type { ActionStatusType } from './types';
 
-const getCheckedActions = (result: ActionStatusType[]) =>
-  result.filter(a => a.checked).map(a => a.action);
+const getCheckedActions = <T extends string>(
+  result: ActionStatusType<T>[]
+): T[] => result.filter(a => a.checked).map(a => a.action);
 
-const getNewCheckedActions = (
+const getNewCheckedActions = <T extends string = string>(
   result: ActionStatusType[],
-  checked: ActionType[]
+  checked: T[]
 ) => {
   return result.filter(ar => ar.checked && !has(checked, ar.action));
 };
 
-export const useCheckPermissions = (
-  actions: ActionType[],
+export const useCheckPermissions = <T extends string>(
+  actions: T[],
   onCheck?: (status: ActionStatusType) => void
 ) => {
-  const { check, allowed } = usePermissions();
+  const { check, allowed } = usePermissions<T>();
 
   const allowedResult = actions.map(allowed);
   const checkedRef = useRef(getCheckedActions(allowedResult));

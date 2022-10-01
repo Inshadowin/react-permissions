@@ -1,14 +1,10 @@
 import { expand } from '.';
-import type {
-  ActionType,
-  CheckResult,
-  PermissionsContainerType,
-} from '../types';
+import type { CheckResult, PermissionsContainerType } from '../types';
 
-type ProcessOldPermissionsParams = {
+type ProcessOldPermissionsParams<T extends string = string> = {
   setPermissions: SetPermissionsType;
   result: CheckResult;
-  actionsToCheck: ActionType[];
+  actionsToCheck: T[];
 };
 
 type ExpandAllowedPermissionsParams = {
@@ -16,9 +12,9 @@ type ExpandAllowedPermissionsParams = {
   result: CheckResult;
 };
 
-type ExpandCheckedPermissionsParams = {
+type ExpandCheckedPermissionsParams<T extends string = string> = {
   oldPermissions: PermissionsContainerType;
-  actionsToCheck: ActionType[];
+  actionsToCheck: T[];
 };
 
 type SetPermissionsType = React.Dispatch<

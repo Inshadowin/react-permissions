@@ -1,9 +1,8 @@
 import { has } from '.';
-import type { PermissionType } from '../types';
 
-export const remove = (
-  removeFrom: PermissionType[],
-  removeWhat: PermissionType[]
+export const remove = <T extends string = string>(
+  removeFrom: T[],
+  removeWhat: T[]
 ) => {
   return (removeFrom ?? []).filter(item => !has(removeWhat, item));
 };

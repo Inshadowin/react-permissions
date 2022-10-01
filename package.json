@@ -1,6 +1,6 @@
 {
   "name": "react-permissions-dynamic",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "This is a package with react-permissions",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",

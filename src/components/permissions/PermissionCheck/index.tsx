@@ -4,32 +4,32 @@ import { useCheckPermissions } from '..';
 import { createPayload } from './createPayload';
 import { checkIfAllowed } from './checkIfAllowed';
 import { defaultAllowLogic } from './defaultAllowLogic';
-import type { ActionType, ActionStatusType, AllowedLogicType } from '../types';
+import type { ActionStatusType, AllowedLogicType } from '../types';
 
-export type PermissionCheckProps = {
-  action: ActionType | ActionType[];
+export type PermissionCheckProps<T extends string = string> = {
+  action: T | T[];
   children: React.ReactNode;
   fallback?: React.ReactNode;
   loading?: React.ReactNode;
   isAllowed?: AllowedLogicType;
-  onDenied?: (action: ActionType) => void;
+  onDenied?: (action: T) => void;
 };
 
-export const PermissionCheck: React.FC<PermissionCheckProps> = ({
+export const PermissionCheck = <T extends string = string>({
   children,
   action,
   onDenied,
   loading = null,
   fallback = null,
   isAllowed = defaultAllowLogic,
-}) => {
-  const onActionDenied = (status: ActionStatusType) => {
+}: PermissionCheckProps<T>) => {
+  const onActionDenied = (status: ActionStatusType<T>) => {
     if (!status.checked || status.allowed) return;
 
     return onDenied?.(status.action);
   };
   const payload = createPayload(action);
-  const actionsStatus = useCheckPermissions(payload, onActionDenied);
+  const actionsStatus = useCheckPermissions<T>(payload, onActionDenied);
 
   const checked = actionsStatus.every(s => !!s.checked);
   const allowed = checkIfAllowed(actionsStatus, isAllowed, payload);

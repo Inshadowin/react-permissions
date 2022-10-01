@@ -5,16 +5,15 @@ import {
 import { getActionsToCheck } from './getActionsToCheck';
 import { processOldPermissions } from './processOldPermissions';
 import type {
-  ActionType,
   CheckResult,
   OnCheckPermissionsType,
   PermissionsContainerType,
   ProgressPermissionsRefType,
 } from '../types';
 
-type PerformActionsCheckParams = {
+type PerformActionsCheckParams<T extends string = string> = {
   isMounted: React.MutableRefObject<boolean>;
-  actions: ActionType[];
+  actions: T[];
   onCheckPermissions?: OnCheckPermissionsType;
   checkedPermissions: PermissionsContainerType['checkedPermissions'];
   progressPermissionsRef: ProgressPermissionsRefType;

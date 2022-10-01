@@ -1,9 +1,9 @@
 import { expand, remove } from '.';
-import type { ActionType, ProgressPermissionsRefType } from '../types';
+import type { ProgressPermissionsRefType } from '../types';
 
-type ProcessProgressAction = {
+type ProcessProgressAction<T extends string = string> = {
   progressPermissionsRef: ProgressPermissionsRefType;
-  actionsToCheck: ActionType[];
+  actionsToCheck: T[];
 };
 
 export const addActionsToProgress = ({

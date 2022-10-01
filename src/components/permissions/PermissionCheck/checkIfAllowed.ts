@@ -1,9 +1,9 @@
-import type { ActionType, ActionStatusType, AllowedLogicType } from '../types';
+import type { ActionStatusType, AllowedLogicType } from '../types';
 
-export const checkIfAllowed = (
+export const checkIfAllowed = <T extends string = string>(
   actionsStatus: ActionStatusType[],
   isAllowed: AllowedLogicType,
-  payload: ActionType[]
+  payload: T[]
 ) => {
   const allowed = actionsStatus.filter(as => as.allowed).map(as => as.action);
   const denied = actionsStatus.filter(as => !as.allowed).map(as => as.action);

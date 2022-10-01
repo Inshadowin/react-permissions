@@ -8,20 +8,16 @@ import {
   defaultOnCheckPermissions,
 } from './utilities';
 import type {
-  ActionType,
   CheckResult,
-  PermissionType,
   ActionStatusType,
   OnCheckPermissionsType,
   PermissionsContainerType,
 } from './types';
 
-export type PermissionsContextType = {
+export type PermissionsContextType<T extends string = string> = {
   permissions: PermissionsContainerType;
-  check: (
-    actions: ActionType[] | ActionType
-  ) => Promise<CheckResult | null> | CheckResult | null;
-  allowed: (actions: ActionType) => ActionStatusType;
+  check: (actions: T[] | T) => Promise<CheckResult | null> | CheckResult | null;
+  allowed: (actions: T) => ActionStatusType<T>;
 };
 
 export type PermissionsProps = {
@@ -42,13 +38,13 @@ const Permissions: React.FC<PermissionsProps> = ({
   onCheckPermissions = defaultOnCheckPermissions,
 }) => {
   const isMounted = useIsMounted();
-  const progressPermissionsRef = useRef<PermissionType[]>([]);
+  const progressPermissionsRef = useRef<string[]>([]);
 
   const [permissions, setPermissions] = useState<PermissionsContainerType>(
     initializePermissions(initialPermissions)
   );
 
-  const handleCheckActions = async (actions: ActionType[]) =>
+  const handleCheckActions = async <T extends string = string>(actions: T[]) =>
     await performActionsCheck({
       isMounted,
       actions,
@@ -58,7 +54,7 @@ const Permissions: React.FC<PermissionsProps> = ({
       progressPermissionsRef,
     });
 
-  const getActionStatus = (action: ActionType) => {
+  const getActionStatus = <T extends string = string>(action: T) => {
     const checked = has(permissions.checkedPermissions, action);
     const allowed = has(permissions.allowedPermissions, action);
 
@@ -79,7 +75,9 @@ const Permissions: React.FC<PermissionsProps> = ({
 };
 
 export default Permissions;
-export const usePermissions = () => useContext(PermissionsContext);
+export const usePermissions = <T extends string = string>() =>
+  useContext(PermissionsContext) as PermissionsContextType<T>;
+
 export const PermissionsProvider = Permissions;
 export { PermissionCheck } from './PermissionCheck';
 export type { PermissionCheckProps } from './PermissionCheck';
