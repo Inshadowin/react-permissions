@@ -2,14 +2,14 @@ import { expand, remove } from '.';
 import type { ProgressPermissionsRefType } from '../types';
 
 type ProcessProgressAction<T extends string = string> = {
-  progressPermissionsRef: ProgressPermissionsRefType;
+  progressPermissionsRef: ProgressPermissionsRefType<T>;
   actionsToCheck: T[];
 };
 
-export const addActionsToProgress = ({
+export const addActionsToProgress = <T extends string = string>({
   progressPermissionsRef,
   actionsToCheck = [],
-}: ProcessProgressAction) => {
+}: ProcessProgressAction<T>) => {
   const newInProgressPermissions = expand(
     progressPermissionsRef.current,
     actionsToCheck
@@ -18,11 +18,11 @@ export const addActionsToProgress = ({
   return (progressPermissionsRef.current = newInProgressPermissions);
 };
 
-export const removeActionsFromProgress = ({
+export const removeActionsFromProgress = <T extends string = string>({
   progressPermissionsRef,
   actionsToCheck = [],
-}: ProcessProgressAction) => {
-  const newInProgressPermissions = remove(
+}: ProcessProgressAction<T>) => {
+  const newInProgressPermissions = remove<T>(
     progressPermissionsRef.current,
     actionsToCheck
   );

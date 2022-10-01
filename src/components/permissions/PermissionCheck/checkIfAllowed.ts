@@ -1,7 +1,7 @@
 import type { ActionStatusType, AllowedLogicType } from '../types';
 
 export const checkIfAllowed = <T extends string = string>(
-  actionsStatus: ActionStatusType[],
+  actionsStatus: ActionStatusType<T>[],
   isAllowed: AllowedLogicType,
   payload: T[]
 ) => {

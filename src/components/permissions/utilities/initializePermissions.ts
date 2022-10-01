@@ -1,8 +1,8 @@
 import type { CheckResult, PermissionsContainerType } from '../types';
 
-export const initializePermissions = (
-  initialPermissions?: CheckResult
-): PermissionsContainerType => {
+export const initializePermissions = <T extends string>(
+  initialPermissions?: CheckResult<T>
+): PermissionsContainerType<T> => {
   if (!initialPermissions?.length) {
     return {
       allowedPermissions: [],

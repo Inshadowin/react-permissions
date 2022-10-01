@@ -11,30 +11,30 @@ import type {
   ProgressPermissionsRefType,
 } from '../types';
 
-type PerformActionsCheckParams<T extends string = string> = {
+type PerformActionsCheckParams<T extends string> = {
   isMounted: React.MutableRefObject<boolean>;
   actions: T[];
-  onCheckPermissions?: OnCheckPermissionsType;
-  checkedPermissions: PermissionsContainerType['checkedPermissions'];
-  progressPermissionsRef: ProgressPermissionsRefType;
-  setPermissions: SetPermissionsType;
+  onCheckPermissions?: OnCheckPermissionsType<T>;
+  checkedPermissions: PermissionsContainerType<T>['checkedPermissions'];
+  progressPermissionsRef: ProgressPermissionsRefType<T>;
+  setPermissions: SetPermissionsType<T>;
 };
 
-type SetPermissionsType = React.Dispatch<
-  React.SetStateAction<PermissionsContainerType>
+type SetPermissionsType<T extends string> = React.Dispatch<
+  React.SetStateAction<PermissionsContainerType<T>>
 >;
 
-export const performActionsCheck = async ({
+export const performActionsCheck = async <T extends string>({
   isMounted,
   actions,
   onCheckPermissions,
   checkedPermissions,
   progressPermissionsRef,
   setPermissions,
-}: PerformActionsCheckParams): Promise<CheckResult | null> => {
+}: PerformActionsCheckParams<T>): Promise<CheckResult<T> | null> => {
   if (!onCheckPermissions) return;
 
-  const actionsToCheck = getActionsToCheck({
+  const actionsToCheck = getActionsToCheck<T>({
     actions,
     checkedPermissions,
     progressPermissionsRef,
@@ -43,7 +43,7 @@ export const performActionsCheck = async ({
 
   const performCheck = async () => {
     try {
-      addActionsToProgress({ progressPermissionsRef, actionsToCheck });
+      addActionsToProgress<T>({ progressPermissionsRef, actionsToCheck });
 
       const result = await onCheckPermissions?.(actionsToCheck);
       if (!isMounted.current) return null;

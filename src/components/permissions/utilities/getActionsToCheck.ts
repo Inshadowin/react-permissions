@@ -4,7 +4,7 @@ import type { ProgressPermissionsRefType } from '../types';
 type GetActionsToCheckParams<T extends string = string> = {
   actions: T[];
   checkedPermissions: T[];
-  progressPermissionsRef: ProgressPermissionsRefType;
+  progressPermissionsRef: ProgressPermissionsRefType<T>;
 };
 
 export const getActionsToCheck = <T extends string = string>({
