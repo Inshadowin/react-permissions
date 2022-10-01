@@ -15,8 +15,10 @@ import type {
 } from './types';
 
 export type PermissionsContextType<T extends string = string> = {
-  permissions: PermissionsContainerType;
-  check: (actions: T[] | T) => Promise<CheckResult | null> | CheckResult | null;
+  permissions: PermissionsContainerType<T>;
+  check: (
+    actions: T[] | T
+  ) => Promise<CheckResult<T> | null> | CheckResult<T> | null;
   allowed: (actions: T) => ActionStatusType<T>;
 };
 
@@ -38,14 +40,14 @@ const Permissions = <T extends string = string>({
   onCheckPermissions = defaultOnCheckPermissions,
 }: PermissionsProps<T>) => {
   const isMounted = useIsMounted();
-  const progressPermissionsRef = useRef<string[]>([]);
+  const progressPermissionsRef = useRef<T[]>([]);
 
-  const [permissions, setPermissions] = useState<PermissionsContainerType>(
+  const [permissions, setPermissions] = useState<PermissionsContainerType<T>>(
     initializePermissions(initialPermissions)
   );
 
-  const handleCheckActions = async <T extends string = string>(actions: T[]) =>
-    await performActionsCheck({
+  const handleCheckActions = async (actions: T[]) =>
+    await performActionsCheck<T>({
       isMounted,
       actions,
       onCheckPermissions,
@@ -54,7 +56,7 @@ const Permissions = <T extends string = string>({
       progressPermissionsRef,
     });
 
-  const getActionStatus = <T extends string = string>(action: T) => {
+  const getActionStatus = (action: T) => {
     const checked = has(permissions.checkedPermissions, action);
     const allowed = has(permissions.allowedPermissions, action);
 

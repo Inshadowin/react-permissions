@@ -149,8 +149,44 @@ return <PermissionCheck>Secure Content</PermissionCheck>;
 
 ### useCheckPermission
 
-Documentation TBD
+```jsx
+type ActionStatusType<T extends string> = {
+  // return action just in case you need it
+  action: T;
+  // if action is checked and allowed - returns true
+  allowed: boolean;
+  // if action is checked - returns true. if check is in progress - returns false
+  checked: boolean;
+};
+
+type UseCheckPermissionType = <T extends string>(action: T) => ActionStatusType<T>;
+
+// Example:
+const Component = () => {
+  const { allowed, checked } = useCheckPermission('can_view_files');
+
+  return allowed ? <FileViewer /> : null;
+}
+```
 
 ### useCheckPermissions
 
-Documentation TBD
+```jsx
+type UseCheckPermissionsType = <T extends string>(actions: T[], onCheck?: (status: ActionStatusType<T>) => void) => ActionStatusType<T>[];
+
+// Same as useCheckPermission, but you get array of results
+// Also has onCheck callback, for single permission check
+
+// Example:
+const Component = () => {
+  const handleOnCheck = (status) => {
+    // actions here are always "checked", so no need to have `status.checked === true` condition
+    if (status.action === 'is_admin' && !status.allowed){
+      return redirect("/404");
+    }
+  };
+  const results = useCheckPermission(['can_upload_files', "is_admin"], handleOnCheck);
+
+  return results.some(s => s.action === 'can_upload_files' && s.allowed ) ? <FileUploader /> : null;
+}
+```

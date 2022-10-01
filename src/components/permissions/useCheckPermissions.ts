@@ -10,7 +10,7 @@ const getCheckedActions = <T extends string>(
 ): T[] => result.filter(a => a.checked).map(a => a.action);
 
 const getNewCheckedActions = <T extends string = string>(
-  result: ActionStatusType[],
+  result: ActionStatusType<T>[],
   checked: T[]
 ) => {
   return result.filter(ar => ar.checked && !has(checked, ar.action));
@@ -18,7 +18,7 @@ const getNewCheckedActions = <T extends string = string>(
 
 export const useCheckPermissions = <T extends string>(
   actions: T[],
-  onCheck?: (status: ActionStatusType) => void
+  onCheck?: (status: ActionStatusType<T>) => void
 ) => {
   const { check, allowed } = usePermissions<T>();
 

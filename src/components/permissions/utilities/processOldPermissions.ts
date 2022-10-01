@@ -1,55 +1,55 @@
 import { expand } from '.';
 import type { CheckResult, PermissionsContainerType } from '../types';
 
-type ProcessOldPermissionsParams<T extends string = string> = {
-  setPermissions: SetPermissionsType;
-  result: CheckResult;
+type ProcessOldPermissionsParams<T extends string> = {
+  setPermissions: SetPermissionsType<T>;
+  result: CheckResult<T>;
   actionsToCheck: T[];
 };
 
-type ExpandAllowedPermissionsParams = {
-  oldPermissions: PermissionsContainerType;
-  result: CheckResult;
+type ExpandAllowedPermissionsParams<T extends string> = {
+  oldPermissions: PermissionsContainerType<T>;
+  result: CheckResult<T>;
 };
 
-type ExpandCheckedPermissionsParams<T extends string = string> = {
-  oldPermissions: PermissionsContainerType;
+type ExpandCheckedPermissionsParams<T extends string> = {
+  oldPermissions: PermissionsContainerType<T>;
   actionsToCheck: T[];
 };
 
-type SetPermissionsType = React.Dispatch<
-  React.SetStateAction<PermissionsContainerType>
+type SetPermissionsType<T extends string> = React.Dispatch<
+  React.SetStateAction<PermissionsContainerType<T>>
 >;
 
-const expandAllowedPermissions = ({
+const expandAllowedPermissions = <T extends string>({
   oldPermissions,
   result = [],
-}: ExpandAllowedPermissionsParams) => {
+}: ExpandAllowedPermissionsParams<T>) => {
   const allowedPermissions = result.filter(p => !!p.allowed).map(p => p.action);
 
   return expand(oldPermissions.allowedPermissions, allowedPermissions);
 };
 
-const expandCheckedPermissions = ({
+const expandCheckedPermissions = <T extends string>({
   oldPermissions,
   actionsToCheck = [],
-}: ExpandCheckedPermissionsParams) => {
+}: ExpandCheckedPermissionsParams<T>) => {
   const checkedPermissions = actionsToCheck;
 
   return expand(oldPermissions.checkedPermissions, checkedPermissions);
 };
 
-export const processOldPermissions = ({
+export const processOldPermissions = <T extends string>({
   setPermissions,
   result = [],
   actionsToCheck = [],
-}: ProcessOldPermissionsParams) => {
+}: ProcessOldPermissionsParams<T>) => {
   return setPermissions(oldPermissions => ({
-    allowedPermissions: expandAllowedPermissions({
+    allowedPermissions: expandAllowedPermissions<T>({
       oldPermissions,
       result,
     }),
-    checkedPermissions: expandCheckedPermissions({
+    checkedPermissions: expandCheckedPermissions<T>({
       oldPermissions,
       // result might not have these permissions, if they don't send not allowed back
       actionsToCheck,
