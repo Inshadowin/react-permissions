@@ -1,12 +1,7 @@
 import React, { useContext, useRef, useState } from 'react';
 
 import { useIsMounted } from '../../hooks';
-import {
-  has,
-  performActionsCheck,
-  initializePermissions,
-  defaultOnCheckPermissions,
-} from './utilities';
+import { has, performActionsCheck, initializePermissions } from './utilities';
 import type {
   CheckResult,
   ActionStatusType,
@@ -37,11 +32,12 @@ const PermissionsContext = React.createContext<PermissionsContextType>({
 const Permissions = <T extends string = string>({
   children,
   initialPermissions,
-  onCheckPermissions = defaultOnCheckPermissions,
+  onCheckPermissions,
 }: PermissionsProps<T>) => {
   const isMounted = useIsMounted();
   const progressPermissionsRef = useRef<T[]>([]);
 
+  const isStaticMode = !onCheckPermissions;
   const [permissions, setPermissions] = useState<PermissionsContainerType<T>>(
     initializePermissions(initialPermissions)
   );
@@ -57,7 +53,7 @@ const Permissions = <T extends string = string>({
     });
 
   const getActionStatus = (action: T) => {
-    const checked = has(permissions.checkedPermissions, action);
+    const checked = isStaticMode || has(permissions.checkedPermissions, action);
     const allowed = has(permissions.allowedPermissions, action);
 
     return { action, allowed, checked };
