@@ -9,14 +9,14 @@ const getCheckedActions = <T extends string>(
   result: ActionStatusType<T>[]
 ): T[] => result.filter(a => a.checked).map(a => a.action);
 
-const getNewCheckedActions = <T extends string = string>(
+const getNewCheckedActions = <T extends string>(
   result: ActionStatusType<T>[],
   checked: T[]
 ) => {
   return result.filter(ar => ar.checked && !has(checked, ar.action));
 };
 
-export const useCheckPermissions = <T extends string>(
+export const useCheckPermissions = <T extends string = string>(
   actions: T[],
   onCheck?: (status: ActionStatusType<T>) => void
 ) => {
