@@ -23,7 +23,7 @@ export type AllowedLogicType<T extends string = string> = (
   payload: T[]
 ) => boolean;
 
-export type CheckResult = CheckResultItem[];
+export type CheckResult<T extends string = string> = CheckResultItem<T>[];
 
 export type OnCheckPermissionsType<T extends string = string> = (
   actions: T[]

@@ -32,9 +32,9 @@ export const PermissionCheck = <T extends string = string>({
   const actionsStatus = useCheckPermissions<T>(payload, onActionDenied);
 
   const checked = actionsStatus.every(s => !!s.checked);
-  const allowed = checkIfAllowed(actionsStatus, isAllowed, payload);
-
   if (!checked) return loading as JSX.Element;
+
+  const allowed = checkIfAllowed(actionsStatus, isAllowed, payload);
   if (!allowed) return fallback as JSX.Element;
 
   return children as JSX.Element;

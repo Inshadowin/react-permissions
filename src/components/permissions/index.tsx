@@ -20,10 +20,10 @@ export type PermissionsContextType<T extends string = string> = {
   allowed: (actions: T) => ActionStatusType<T>;
 };
 
-export type PermissionsProps = {
+export type PermissionsProps<T extends string = string> = {
   children: React.ReactNode;
-  initialPermissions?: CheckResult;
-  onCheckPermissions?: OnCheckPermissionsType;
+  initialPermissions?: CheckResult<T>;
+  onCheckPermissions?: OnCheckPermissionsType<T>;
 };
 
 const PermissionsContext = React.createContext<PermissionsContextType>({
@@ -32,11 +32,11 @@ const PermissionsContext = React.createContext<PermissionsContextType>({
   allowed: action => ({ action: action, allowed: false, checked: true }),
 });
 
-const Permissions: React.FC<PermissionsProps> = ({
+const Permissions = <T extends string = string>({
   children,
   initialPermissions,
   onCheckPermissions = defaultOnCheckPermissions,
-}) => {
+}: PermissionsProps<T>) => {
   const isMounted = useIsMounted();
   const progressPermissionsRef = useRef<string[]>([]);
 
