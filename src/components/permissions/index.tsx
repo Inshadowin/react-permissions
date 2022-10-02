@@ -53,7 +53,7 @@ const Permissions = <T extends string = string>({
     });
 
   const getActionStatus = (action: T) => {
-    const checked = isStaticMode || has(permissions.checkedPermissions, action);
+    const checked = has(permissions.checkedPermissions, action) || isStaticMode;
     const allowed = has(permissions.allowedPermissions, action);
 
     return { action, allowed, checked };
