@@ -190,7 +190,7 @@ const Component = () => {
       return redirect('/404');
     }
   };
-  const results = useCheckPermission(
+  const results = useCheckPermissions(
     ['can_upload_files', 'is_admin'],
     handleOnCheck
   );
