@@ -48,6 +48,32 @@ return (
 );
 ```
 
+It's recommended to specify union-type for your components/utilities
+You can do it like this
+
+```tsx
+import {
+  PermissionCheck as LibPermissionCheck,
+  PermissionsProvider as LibPermissionsProvider,
+} from 'react-permissions-dynamic';
+
+import type {
+  PermissionCheckProps as LibPermissionCheckProps,
+  PermissionsProviderProps as LibPermissionsProviderProps,
+} from 'react-permissions-dynamic';
+
+type MyPermission = 'can_view_files' | 'can_edit_files';
+
+type PermissionCheckProps = LibPermissionCheckProps<MyPermission>;
+type PermissionsProviderProps = LibPermissionsProviderProps<MyPermission>;
+
+const PermissionCheck = LibPermissionCheck as React.FC<PermissionCheckProps>;
+const PermissionsProvider =
+  LibPermissionsProvider as React.FC<PermissionsProviderProps>;
+
+export { PermissionCheck, PermissionsProvider };
+```
+
 In the code itself use `PermissionCheck` component
 
 ```jsx
