@@ -23,7 +23,7 @@ export const useCheckPermissions = <T extends string = string>(
   const { check, allowed } = usePermissions<T>();
 
   const allowedResult = actions.map(allowed);
-  const checkedRef = useRef(getCheckedActions(allowedResult));
+  const checkedRef = useRef<T[]>([]);
 
   const checkRef = useRefValue(check);
   const onCheckRef = useRefValue(onCheck);
