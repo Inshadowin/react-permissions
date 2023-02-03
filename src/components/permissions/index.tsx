@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useMemo, useRef, useState } from 'react';
 
 import { useIsMounted } from '../../hooks';
 import { has, performActionsCheck, initializePermissions } from './utilities';
@@ -19,6 +19,7 @@ export type PermissionsContextType<T extends string = string> = {
 
 export type PermissionsProps<T extends string = string> = {
   children: React.ReactNode;
+  permissions?: CheckResult<T>;
   initialPermissions?: CheckResult<T>;
   onCheckPermissions?: OnCheckPermissionsType<T>;
 };
@@ -32,15 +33,21 @@ const PermissionsContext = React.createContext<PermissionsContextType>({
 const Permissions = <T extends string = string>({
   children,
   initialPermissions,
+  permissions: valuePermissions,
   onCheckPermissions,
 }: PermissionsProps<T>) => {
   const isMounted = useIsMounted();
   const progressPermissionsRef = useRef<T[]>([]);
 
   const isStaticMode = !onCheckPermissions;
-  const [permissions, setPermissions] = useState<PermissionsContainerType<T>>(
+  const [localPerm, setPermissions] = useState<PermissionsContainerType<T>>(
     initializePermissions(initialPermissions)
   );
+  const permissions = useMemo(() => {
+    return valuePermissions
+      ? initializePermissions(valuePermissions)
+      : localPerm;
+  }, [valuePermissions, localPerm]);
 
   const handleCheckActions = async (actions: T[]) =>
     await performActionsCheck<T>({

@@ -14,6 +14,7 @@ const Main = () => {
 
 Provide `initialPermissions?: CheckResult` and/or `onCheckPermissions?: OnCheckPermissionsType`
 If you have all permissions somewhere, and you don't need dynamic checks - use only `initialPermissions`
+If permissions are controled by you - use `permissions` prop
 
 ```jsx
 type CheckResult = {
