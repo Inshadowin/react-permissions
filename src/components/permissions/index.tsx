@@ -21,11 +21,20 @@ export type PermissionsProps<T extends string = string> = {
   children: React.ReactNode;
   permissions?: CheckResult<T>;
   initialPermissions?: CheckResult<T>;
+
   onCheckPermissions?: OnCheckPermissionsType<T>;
+  isAllowed?: (action: T, allowed: T[]) => boolean;
+};
+
+const defaultIsAllowed = <T extends string = string>(
+  action: T,
+  allowed: T[]
+) => {
+  return has(allowed, action);
 };
 
 const PermissionsContext = React.createContext<PermissionsContextType>({
-  check: actions => [],
+  check: _actions => [],
   permissions: initializePermissions(),
   allowed: action => ({ action: action, allowed: false, checked: true }),
 });
@@ -35,7 +44,8 @@ const Permissions = <T extends string = string>({
   initialPermissions,
   permissions: valuePermissions,
   onCheckPermissions,
-}: PermissionsProps<T>) => {
+  isAllowed = defaultIsAllowed,
+}: PermissionsProps<T>): React.ReactElement => {
   const isMounted = useIsMounted();
   const progressPermissionsRef = useRef<T[]>([]);
 
@@ -61,7 +71,7 @@ const Permissions = <T extends string = string>({
 
   const getActionStatus = (action: T) => {
     const checked = has(permissions.checkedPermissions, action) || isStaticMode;
-    const allowed = has(permissions.allowedPermissions, action);
+    const allowed = isAllowed(action, permissions.allowedPermissions);
 
     return { action, allowed, checked };
   };
@@ -84,7 +94,8 @@ export const usePermissions = <T extends string = string>() =>
   useContext(PermissionsContext) as PermissionsContextType<T>;
 
 export const PermissionsProvider = Permissions;
+export { useAllowed } from './useAllowed';
 export { PermissionCheck } from './PermissionCheck';
-export type { PermissionCheckProps } from './PermissionCheck';
 export { useCheckPermission } from './useCheckPermission';
 export { useCheckPermissions } from './useCheckPermissions';
+export type { PermissionCheckProps } from './PermissionCheck';

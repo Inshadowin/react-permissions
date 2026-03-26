@@ -2,8 +2,8 @@ import React from 'react';
 
 import { useCheckPermissions } from '..';
 import { createPayload } from './createPayload';
+import { defaultAllowLogic } from '../utilities';
 import { checkIfAllowed } from './checkIfAllowed';
-import { defaultAllowLogic } from './defaultAllowLogic';
 import type { ActionStatusType, AllowedLogicType } from '../types';
 
 export type PermissionCheckProps<T extends string = string> = {
@@ -22,7 +22,7 @@ export const PermissionCheck = <T extends string = string>({
   loading = null,
   fallback = null,
   isAllowed = defaultAllowLogic,
-}: PermissionCheckProps<T>) => {
+}: PermissionCheckProps<T>): React.ReactElement => {
   const onActionDenied = (status: ActionStatusType<T>) => {
     if (!status.checked || status.allowed) return;
 
@@ -32,10 +32,10 @@ export const PermissionCheck = <T extends string = string>({
   const actionsStatus = useCheckPermissions<T>(payload, onActionDenied);
 
   const checked = actionsStatus.every(s => !!s.checked);
-  if (!checked) return loading as JSX.Element;
+  if (!checked) return loading as React.ReactElement;
 
   const allowed = checkIfAllowed(actionsStatus, isAllowed, payload);
-  if (!allowed) return fallback as JSX.Element;
+  if (!allowed) return fallback as React.ReactElement;
 
-  return children as JSX.Element;
+  return children as React.ReactElement;
 };

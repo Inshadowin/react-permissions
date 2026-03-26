@@ -16,6 +16,17 @@ Provide `initialPermissions?: CheckResult` and/or `onCheckPermissions?: OnCheckP
 If you have all permissions somewhere, and you don't need dynamic checks - use only `initialPermissions`
 If permissions are controled by you - use `permissions` prop
 
+```tsx
+export type PermissionsProps<T extends string = string> = {
+  children: React.ReactNode;
+  permissions?: CheckResult<T>;
+  initialPermissions?: CheckResult<T>;
+
+  onCheckPermissions?: OnCheckPermissionsType<T>;
+  isAllowed?: (action: T, allowed: T[]) => boolean;
+};
+```
+
 ```jsx
 type CheckResult = {
   action: string,
@@ -43,7 +54,20 @@ return (
   <PermissionsProvider
     onCheckPermissions={exampleCheckPermissions}
     initialPermissions={exampleInitialPermissions}
+    isAllowed={action => isUserSuperAdmin(action)}
   >
+    // children
+  </PermissionsProvider>
+);
+```
+
+If you have "allow all" check - add it via `isAllowed` function
+
+```tsx
+const isUserSuperAdmin = _action => true;
+
+return (
+  <PermissionsProvider isAllowed={action => isUserSuperAdmin(action)}>
     // children
   </PermissionsProvider>
 );
@@ -226,4 +250,10 @@ const Component = () => {
     <FileUploader />
   ) : null;
 };
+```
+
+### useAllowed
+
+```tsx
+const allowed: string[] = useAllowed(['one', 'two', 'three']);
 ```

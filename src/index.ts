@@ -1,6 +1,7 @@
 export {
   PermissionCheck,
   PermissionsProvider,
+  useAllowed,
   usePermissions,
   useCheckPermission,
   useCheckPermissions,
