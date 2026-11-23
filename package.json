@@ -1,6 +1,6 @@
 {
   "name": "react-permissions-dynamic",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "This is a package with react-permissions",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -18,7 +18,7 @@
     "url": "git+https://github.com/Inshadowin/react-permissions.git"
   },
   "author": "Antony Karachansky",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Inshadowin/react-permissions/issues"
   },
